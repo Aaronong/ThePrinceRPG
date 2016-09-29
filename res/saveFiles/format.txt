@@ -1,0 +1,9 @@
+game_stateID
+x_coord y_coord
+EXP
+Gold
+name_1 job_1 str_1 dex_1 int_1 vit_1 eq_primary1 eq_secondary1 eq_armour1
+name_2 job_2 str_2 dex_2 int_2 vit_2 eq_primary2 eq_secondary2 eq_armour2
+name_3 job_3 str_3 dex_3 int_3 vit_3 eq_primary3 eq_secondary3 eq_armour3
+name_4 job_4 str_4 dex_4 int_4 vit_4 eq_primary4 eq_secondary4 eq_armour4
+item_1 item_2 .....
