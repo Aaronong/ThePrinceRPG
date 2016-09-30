@@ -6,12 +6,10 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import data.Loader;
-import entities.EntityManager;
 import entities.Player;
 import gfx.Animation;
 import gfx.Assets;
 import thePrinceGame.Handler;
-import thePrinceMain.Game;
 
 public class MenuState extends State {
 
@@ -25,7 +23,6 @@ public class MenuState extends State {
 	private int stats = 0; // in mod 4, str dex int vit
 	private int items = 0; // in mod 3, pri sec armour
 	private int skills = 7; // in mod 5, skl 1,2,3,4,5
-	private EntityManager entityManager;
 	private Animation animDown1;
 	private Animation animDown2;
 	private Animation animDown3;
@@ -35,7 +32,6 @@ public class MenuState extends State {
 	public MenuState(Handler handler){
 		super(handler);
 		stateID = 6;
-		entityManager = new EntityManager(handler, null);
 		animDown1 = new Animation(200, Assets.player_down);
 		animDown2 = new Animation(200, getCharAnim(handler.getData().getPlayer2_job()));
 		animDown3 = new Animation(200, getCharAnim(handler.getData().getPlayer3_job()));
@@ -108,7 +104,7 @@ public class MenuState extends State {
 				if (save == 1)
 					handler.getData().saveData(handler.getData().getPath());
 				else if (save == 2){
-					Loader loadFile = new Loader("/saveFiles/saveState1.txt");
+					Loader loadFile = new Loader("/saveFiles/saveState1.txt", false);
 					handler.setData(loadFile);
 				}
 				else if (save == 3){

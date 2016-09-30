@@ -2,7 +2,6 @@ package gameStates;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.io.*;
 
 import entities.InnGirl;
 import entities.ItemGirl;

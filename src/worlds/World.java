@@ -1,13 +1,10 @@
 package worlds;
 
 import java.awt.Graphics;
-import java.io.IOException;
 
 import entities.EntityManager;
 import entities.Player;
-import gameStates.AtlantisState;
 import thePrinceGame.Handler;
-import thePrinceMain.Game;
 import tile.Tile;
 import utils.Utils;
 

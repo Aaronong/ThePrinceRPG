@@ -1,14 +1,10 @@
 package utils;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Scanner;
 
 public class Utils {
 	
@@ -33,13 +29,17 @@ public class Utils {
 	}
 	
 	//File stored outside Jar, mutable
-	public static String loadFile(String path){
+	public static String loadFile(String path, boolean newgame){
 		StringBuilder builder = new StringBuilder();
 		
 		try{
 			//InputStream in = InputStream.class.getResourceAsStream(path); 
 			//BufferedReader br = new BufferedReader(new InputStreamReader(in));
-			BufferedReader br = new BufferedReader(new FileReader("saveState.txt"));
+			BufferedReader br;
+			if (newgame)
+				br = new BufferedReader(new FileReader("saveState-NewGame.txt"));
+			else
+				br = new BufferedReader(new FileReader("saveState.txt"));
 			String line;
 			while((line =  br.readLine()) != null)
 				builder.append(line + "\n");

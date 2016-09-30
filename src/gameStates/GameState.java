@@ -1,6 +1,6 @@
 package gameStates;
 
-import java.awt.Color;
+
 import java.awt.Graphics;
 
 import entities.Player;

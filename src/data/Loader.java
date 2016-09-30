@@ -1,14 +1,9 @@
 package data;
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.net.URISyntaxException;
-import java.net.URL;
 
 import utils.Utils;
 
@@ -122,10 +117,10 @@ public class Loader {
 	private String player4_pri;
 	private String player4_sec;
 	
-	public Loader (String path)
+	public Loader (String path, boolean newgame)
 	{
 		try {
-			loadData (path);
+			loadData (path, newgame);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -239,8 +234,8 @@ public class Loader {
 		player4_sec = setSecondaryAttrubute (player4_job);
 	}
 	
-	private void loadData(String path) throws IOException{
-		String file = Utils.loadFile(path);
+	private void loadData(String path, boolean newgame) throws IOException{
+		String file = Utils.loadFile(path,newgame);
 		this.path = path;
 		String[] tokens = file.split("\\s+");
 		stateID = Utils.parseInt(tokens[0]);
@@ -577,7 +572,7 @@ public class Loader {
 		this.setPlayer4_vit(vit);
 		
 		this.saveData("res/saveFiles/saveStateTemp.txt");
-		return new Loader("res/saveFiles/saveStateTemp.txt");
+		return new Loader("res/saveFiles/saveStateTemp.txt", false);
 	}
 	
 

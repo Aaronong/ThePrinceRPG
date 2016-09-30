@@ -4,7 +4,6 @@ import java.awt.Graphics;
 
 import entities.Player;
 import thePrinceGame.Handler;
-import thePrinceMain.Game;
 
 public abstract class State {
 	

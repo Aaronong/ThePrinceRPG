@@ -5,12 +5,11 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-import entities.EntityManager;
+import data.Loader;
 import entities.Player;
 import gfx.Animation;
 import gfx.Assets;
 import thePrinceGame.Handler;
-import thePrinceMain.Game;
 
 public class MainState extends State {
 
@@ -18,40 +17,22 @@ public class MainState extends State {
 	private int stateID;
 	private int Menu = 0;  // 0 = main menu, 1 = load menu, 2 = chac menu
 	private int arrow = 2; //top/mid/bottom position
-	private int character = 0; //in mod 6, returns one of the six heroes
-	private int status = 0; // in mod 3, stats inventory skills
 	private boolean save = true;
-	private int stats = 0; // in mod 4, str dex int vit
-	private int items = 0; // in mod 3, pri sec armour
-	private int skills = 7; // in mod 5, skl 1,2,3,4,5
-	private EntityManager entityManager;
+
 	private Animation animDown1;
 	private Animation animDown2;
 	private Animation animDown3;
 	private Animation animDown4;
-	private Animation animAllDown1;
-	private Animation animAllDown2;
-	private Animation animAllDown3;
-	private Animation animAllDown4;
-	private Animation animAllDown5;
-	private Animation animAllDown6;
 	
 	
 	
 	public MainState(Handler handler){
 		super(handler);
 		stateID = 6;
-		entityManager = new EntityManager(handler, null);
 		animDown1 = new Animation(200, Assets.player_down);
 		animDown2 = new Animation(200, getCharAnim(handler.getData().getPlayer2_job()));
 		animDown3 = new Animation(200, getCharAnim(handler.getData().getPlayer3_job()));
 		animDown4 = new Animation(200, getCharAnim(handler.getData().getPlayer4_job()));
-		animAllDown1 = new Animation(200, Assets.player_down);
-		animAllDown2 = new Animation(200, Assets.ranger_down);
-		animAllDown3 = new Animation(200, Assets.knight_down);
-		animAllDown4 = new Animation(200, Assets.magician_down);
-		animAllDown5 = new Animation(200, Assets.pirate_down);
-		animAllDown6 = new Animation(200, Assets.ninja_down);
 		handler.getKeyManager().setUpr(false);
 		handler.getKeyManager().setDownr(false);
 		handler.getKeyManager().setLeftr(false);
@@ -90,6 +71,7 @@ public class MainState extends State {
 		}
 		if (Menu == 1){ //load
 			if (handler.getKeyManager().isSelectr()){
+				handler.setData(new Loader ("",false));
 				handler.toWorld();
 				handler.getKeyManager().setSelectr(false);
 			}
@@ -104,6 +86,7 @@ public class MainState extends State {
 		}
 		if (Menu == 2){ //new
 			if (handler.getKeyManager().isSelectr()){
+				handler.setData(new Loader("", true));
 				handler.toWorld();
 				handler.getKeyManager().setSelectr(false);
 			}
@@ -250,275 +233,7 @@ public class MainState extends State {
 	}
 
 	
-	private void drawStatus(Graphics g){
-		//uses character int
-		g.setFont(new Font("Arial", Font.PLAIN, 20)); 
-		g.setColor(new Color (244,212,0)); //yellow
-		if (character == 0)
-		{
-			g.drawString("Str   "+Integer.toString(handler.getData().getPlayer1_str()), 520, 130);
-			g.drawString("Dex   "+Integer.toString(handler.getData().getPlayer1_dex()), 620, 130);
-			g.drawString("Int   "+Integer.toString(handler.getData().getPlayer1_int()), 520, 160);
-			g.drawString("Vit    "+Integer.toString(handler.getData().getPlayer1_vit()), 622, 160);
-			g.setColor(new Color (227,70,221)); // magenta
-			g.drawString("HP    "+Integer.toString(handler.getData().getPlayer1_hp()), 520, 210);
-			g.drawString("MP    "+Integer.toString(handler.getData().getPlayer1_mp()), 620, 210);
-			g.drawString("P.Atk "+Integer.toString(handler.getData().getPlayer1_patk()), 519, 240);
-			g.drawString("P.Def "+Integer.toString(handler.getData().getPlayer1_pdef()), 619, 240);
-			g.drawString("M.Atk "+Integer.toString(handler.getData().getPlayer1_matk()), 520, 270);
-			g.drawString("M.Def "+Integer.toString(handler.getData().getPlayer1_mdef()), 620, 270);
-			g.drawString("Avoid "+Integer.toString(handler.getData().getPlayer1_avoid())+"%", 522, 300);
-			g.drawString("Crit    "+Integer.toString(handler.getData().getPlayer1_crit())+"%", 620, 300);
-			g.drawString("Primary: "+handler.getData().getPlayer1_pri(), 520, 340);
-			g.drawString("Secondary: "+handler.getData().getPlayer1_sec(), 520, 370);
-		}
-		else if (character == 1)
-		{
-			g.drawString("Str "+Integer.toString(handler.getData().getPlayer2_str()), 520, 130);
-			g.drawString("Dex "+Integer.toString(handler.getData().getPlayer2_dex()), 620, 130);
-			g.drawString("Int "+Integer.toString(handler.getData().getPlayer2_int()), 520, 160);
-			g.drawString("Vit  "+Integer.toString(handler.getData().getPlayer2_vit()), 622, 160);
-			g.setColor(new Color (227,70,221));
-			g.drawString("HP    "+Integer.toString(handler.getData().getPlayer2_hp()), 520, 210);
-			g.drawString("MP    "+Integer.toString(handler.getData().getPlayer2_mp()), 620, 210);
-			g.drawString("P.Atk "+Integer.toString(handler.getData().getPlayer2_patk()), 519, 240);
-			g.drawString("P.Def "+Integer.toString(handler.getData().getPlayer2_pdef()), 619, 240);
-			g.drawString("M.Atk "+Integer.toString(handler.getData().getPlayer2_matk()), 520, 270);
-			g.drawString("M.Def "+Integer.toString(handler.getData().getPlayer2_mdef()), 620, 270);
-			g.drawString("Avoid "+Integer.toString(handler.getData().getPlayer2_avoid())+"%", 522, 300);
-			g.drawString("Crit    "+Integer.toString(handler.getData().getPlayer2_crit())+"%", 620, 300);
-
-			g.drawString("Primary: "+handler.getData().getPlayer2_pri(), 520, 340);
-			g.drawString("Secondary: "+handler.getData().getPlayer2_sec(), 520, 370);
-		}
-		else if (character == 2)
-		{
-			g.drawString("Str "+Integer.toString(handler.getData().getPlayer3_str()), 520, 130);
-			g.drawString("Dex "+Integer.toString(handler.getData().getPlayer3_dex()), 620, 130);
-			g.drawString("Int "+Integer.toString(handler.getData().getPlayer3_int()), 520, 160);
-			g.drawString("Vit  "+Integer.toString(handler.getData().getPlayer3_vit()), 622, 160);
-			g.setColor(new Color (227,70,221));
-			g.drawString("HP    "+Integer.toString(handler.getData().getPlayer3_hp()), 520, 210);
-			g.drawString("MP    "+Integer.toString(handler.getData().getPlayer3_mp()), 620, 210);
-			g.drawString("P.Atk "+Integer.toString(handler.getData().getPlayer3_patk()), 519, 240);
-			g.drawString("P.Def "+Integer.toString(handler.getData().getPlayer3_pdef()), 619, 240);
-			g.drawString("M.Atk "+Integer.toString(handler.getData().getPlayer3_matk()), 520, 270);
-			g.drawString("M.Def "+Integer.toString(handler.getData().getPlayer3_mdef()), 620, 270);
-			g.drawString("Avoid "+Integer.toString(handler.getData().getPlayer3_avoid())+"%", 522, 300);
-			g.drawString("Crit    "+Integer.toString(handler.getData().getPlayer3_crit())+"%", 620, 300);
-			g.drawString("Primary: "+handler.getData().getPlayer3_pri(), 520, 340);
-			g.drawString("Secondary: "+handler.getData().getPlayer3_sec(), 520, 370);
-		}
-		else
-		{
-			g.drawString("Str "+Integer.toString(handler.getData().getPlayer4_str()), 520, 130);
-			g.drawString("Dex "+Integer.toString(handler.getData().getPlayer4_dex()), 620, 130);
-			g.drawString("Int "+Integer.toString(handler.getData().getPlayer4_int()), 520, 160);
-			g.drawString("Vit  "+Integer.toString(handler.getData().getPlayer4_vit()), 622, 160);
-			g.setColor(new Color (227,70,221));
-			g.drawString("HP    "+Integer.toString(handler.getData().getPlayer4_hp()), 520, 210);
-			g.drawString("MP    "+Integer.toString(handler.getData().getPlayer4_mp()), 620, 210);
-			g.drawString("P.Atk "+Integer.toString(handler.getData().getPlayer4_patk()), 519, 240);
-			g.drawString("P.Def "+Integer.toString(handler.getData().getPlayer4_pdef()), 619, 240);
-			g.drawString("M.Atk "+Integer.toString(handler.getData().getPlayer4_matk()), 520, 270);
-			g.drawString("M.Def "+Integer.toString(handler.getData().getPlayer4_mdef()), 620, 270);
-			g.drawString("Avoid "+Integer.toString(handler.getData().getPlayer4_avoid())+"%", 522, 300);
-			g.drawString("Crit    "+Integer.toString(handler.getData().getPlayer4_crit())+"%", 620, 300);
-			g.drawString("Primary: "+handler.getData().getPlayer4_pri(), 520, 340);
-			g.drawString("Secondary: "+handler.getData().getPlayer4_sec(), 520, 370);
-		}
-	}
 	
-	private void drawSkillStats(Graphics g){
-		g.setFont(new Font("Arial", Font.BOLD, 14));
-		g.setColor(new Color(95,242,138)); //pale green
-		if (skills != 7)
-		{
-			if (character == 0){
-				
-				for (int s = 0; s < 6; s++){
-					if (skills == s){
-						g.drawImage(Assets.menuArrow,480,132+40*s,20,20, null);
-						g.drawString(handler.getSkillManager().getSkillDes(handler.getData().getPlayer1_job(), s), 475, 460);
-					}
-				}
-			}
-			else if (character == 1){
-				
-				for (int s = 0; s < 6; s++){
-					if (skills == s){
-						g.drawImage(Assets.menuArrow,480,132+40*s,20,20, null);
-						g.drawString(handler.getSkillManager().getSkillDes(handler.getData().getPlayer2_job(), s), 475, 460);
-					}
-				}
-			}
-			else if (character == 2){
-				
-				for (int s = 0; s < 6; s++){
-					if (skills == s){
-						g.drawImage(Assets.menuArrow,480,132+40*s,20,20, null);
-						g.drawString(handler.getSkillManager().getSkillDes(handler.getData().getPlayer3_job(), s), 475, 460);
-					}
-				}
-			}
-			else if (character == 3){
-				
-				for (int s = 0; s < 6; s++){
-					if (skills == s){
-						g.drawImage(Assets.menuArrow,480,132+40*s,20,20, null);
-						g.drawString(handler.getSkillManager().getSkillDes(handler.getData().getPlayer4_job(), s), 475, 460);
-					}
-				}
-			}
-		}
-	}
-	
-	private void drawStats(Graphics g){
-		g.setFont(new Font("Arial", Font.BOLD, 14));
-		g.setColor(new Color(95,242,138)); //pale green
-		if (stats == 1)
-		{
-			g.drawImage(Assets.menuArrow,490,113,20,20, null);
-			g.drawString("Str: + (1 P.Atk/0.2 Crit)", 475, 443);
-			g.drawString("Pri: + (2.5 P.Atk/0.5 P.Def)", 475, 463);
-			g.drawString("Sec: + (1.5 P.Atk)", 475, 483);
-		}
-		if (stats == 2)
-		{
-			g.drawImage(Assets.menuArrow,590,113,20,20, null);
-			g.drawString("Dex: + (0.4 Crit/0.5 Avd)", 475, 443);
-			g.drawString("Pri: + (2.5 P.Atk/0.3 Crit/0.2 Avd)", 475, 463);
-			g.drawString("Sec: + (0.2% Crit)", 475, 483);
-		}
-		if (stats == 3)
-		{
-			g.drawImage(Assets.menuArrow,490,143,20,20, null);
-			g.drawString("Int: + (3 MP/1 M.Atk/1 M.Def)", 475, 443);
-			g.drawString("Pri: + (1.5 MP/2.5 M.Atk/1 M.Def)", 475, 463);
-			g.drawString("Sec: + (1.5 P.Atk)", 475, 483);
-		}
-		if (stats == 4)
-		{
-			g.drawImage(Assets.menuArrow,590,143,20,20, null);
-			g.drawString("Vit: + (5 HP/1 P.Def)", 475, 443);
-			g.drawString("Pri: + (3 HP/1.5 P.Atk/1 P.Def)", 475, 463);
-			g.drawString("Sec: + (2 HP)", 475, 483);
-		}
-	}
-	
-	private void drawSkills(Graphics g){
-		g.setFont(new Font("Arial", Font.PLAIN, 20)); 
-		g.setColor(new Color (227,70,221)); // Magenta
-		if (character == 0){
-			g.drawString(handler.getSkillManager().getSkillName(handler.getData().getPlayer1_job(), 0), 520, 150);
-			g.drawString(handler.getSkillManager().getSkillName(handler.getData().getPlayer1_job(), 1), 520, 190);
-			g.drawString(handler.getSkillManager().getSkillName(handler.getData().getPlayer1_job(), 2), 520, 230);
-			g.drawString(handler.getSkillManager().getSkillName(handler.getData().getPlayer1_job(), 3), 520, 270);
-			g.drawString(handler.getSkillManager().getSkillName(handler.getData().getPlayer1_job(), 4), 520, 310);
-			g.drawString(handler.getSkillManager().getSkillName(handler.getData().getPlayer1_job(), 5), 520, 350);
-			g.setFont(new Font("Arial", Font.BOLD, 14));
-			g.setColor(new Color (244,212,0)); //yellow
-			g.drawString("Lv1. "+handler.getSkillManager().getSkillTypeStr(handler.getData().getPlayer1_job(), 0), 670, 150);
-			g.drawString("Lv1. "+handler.getSkillManager().getSkillTypeStr(handler.getData().getPlayer1_job(), 1), 670, 190);
-			g.drawString("Lv3. "+handler.getSkillManager().getSkillTypeStr(handler.getData().getPlayer1_job(), 2), 670, 230);
-			g.drawString("Lv6. "+handler.getSkillManager().getSkillTypeStr(handler.getData().getPlayer1_job(), 3), 670, 270);
-			g.drawString("Lv9. "+handler.getSkillManager().getSkillTypeStr(handler.getData().getPlayer1_job(), 4), 670, 310);
-			g.drawString("Lv12. "+handler.getSkillManager().getSkillTypeStr(handler.getData().getPlayer1_job(), 5), 670, 350);
-		}
-		else if (character == 1){
-			g.drawString(handler.getSkillManager().getSkillName(handler.getData().getPlayer2_job(), 0), 520, 150);
-			g.drawString(handler.getSkillManager().getSkillName(handler.getData().getPlayer2_job(), 1), 520, 190);
-			g.drawString(handler.getSkillManager().getSkillName(handler.getData().getPlayer2_job(), 2), 520, 230);
-			g.drawString(handler.getSkillManager().getSkillName(handler.getData().getPlayer2_job(), 3), 520, 270);
-			g.drawString(handler.getSkillManager().getSkillName(handler.getData().getPlayer2_job(), 4), 520, 310);
-			g.drawString(handler.getSkillManager().getSkillName(handler.getData().getPlayer2_job(), 5), 520, 350);
-			g.setFont(new Font("Arial", Font.BOLD, 14));
-			g.setColor(new Color (244,212,0)); //yellow
-			g.drawString("Lv1. "+handler.getSkillManager().getSkillTypeStr(handler.getData().getPlayer2_job(), 0), 670, 150);
-			g.drawString("Lv1. "+handler.getSkillManager().getSkillTypeStr(handler.getData().getPlayer2_job(), 1), 670, 190);
-			g.drawString("Lv3. "+handler.getSkillManager().getSkillTypeStr(handler.getData().getPlayer2_job(), 2), 670, 230);
-			g.drawString("Lv6. "+handler.getSkillManager().getSkillTypeStr(handler.getData().getPlayer2_job(), 3), 670, 270);
-			g.drawString("Lv9. "+handler.getSkillManager().getSkillTypeStr(handler.getData().getPlayer2_job(), 4), 670, 310);
-			g.drawString("Lv12. "+handler.getSkillManager().getSkillTypeStr(handler.getData().getPlayer2_job(), 5), 670, 350);
-		}
-		else if (character == 2){
-			g.drawString(handler.getSkillManager().getSkillName(handler.getData().getPlayer3_job(), 0), 520, 150);
-			g.drawString(handler.getSkillManager().getSkillName(handler.getData().getPlayer3_job(), 1), 520, 190);
-			g.drawString(handler.getSkillManager().getSkillName(handler.getData().getPlayer3_job(), 2), 520, 230);
-			g.drawString(handler.getSkillManager().getSkillName(handler.getData().getPlayer3_job(), 3), 520, 270);
-			g.drawString(handler.getSkillManager().getSkillName(handler.getData().getPlayer3_job(), 4), 520, 310);
-			g.drawString(handler.getSkillManager().getSkillName(handler.getData().getPlayer3_job(), 5), 520, 350);
-			g.setFont(new Font("Arial", Font.BOLD, 14));
-			g.setColor(new Color (244,212,0)); //yellow
-			g.drawString("Lv1. "+handler.getSkillManager().getSkillTypeStr(handler.getData().getPlayer3_job(), 0), 670, 150);
-			g.drawString("Lv1. "+handler.getSkillManager().getSkillTypeStr(handler.getData().getPlayer3_job(), 1), 670, 190);
-			g.drawString("Lv3. "+handler.getSkillManager().getSkillTypeStr(handler.getData().getPlayer3_job(), 2), 670, 230);
-			g.drawString("Lv6. "+handler.getSkillManager().getSkillTypeStr(handler.getData().getPlayer3_job(), 3), 670, 270);
-			g.drawString("Lv9. "+handler.getSkillManager().getSkillTypeStr(handler.getData().getPlayer3_job(), 4), 670, 310);
-			g.drawString("Lv12. "+handler.getSkillManager().getSkillTypeStr(handler.getData().getPlayer3_job(), 5), 670, 350);
-		}
-		else if (character == 3){
-			g.drawString(handler.getSkillManager().getSkillName(handler.getData().getPlayer4_job(), 0), 520, 150);
-			g.drawString(handler.getSkillManager().getSkillName(handler.getData().getPlayer4_job(), 1), 520, 190);
-			g.drawString(handler.getSkillManager().getSkillName(handler.getData().getPlayer4_job(), 2), 520, 230);
-			g.drawString(handler.getSkillManager().getSkillName(handler.getData().getPlayer4_job(), 3), 520, 270);
-			g.drawString(handler.getSkillManager().getSkillName(handler.getData().getPlayer4_job(), 4), 520, 310);
-			g.drawString(handler.getSkillManager().getSkillName(handler.getData().getPlayer4_job(), 5), 520, 350);
-			g.setFont(new Font("Arial", Font.BOLD, 14));
-			g.setColor(new Color (244,212,0)); //yellow
-			g.drawString("Lv1. "+handler.getSkillManager().getSkillTypeStr(handler.getData().getPlayer4_job(), 0), 670, 150);
-			g.drawString("Lv1. "+handler.getSkillManager().getSkillTypeStr(handler.getData().getPlayer4_job(), 1), 670, 190);
-			g.drawString("Lv3. "+handler.getSkillManager().getSkillTypeStr(handler.getData().getPlayer4_job(), 2), 670, 230);
-			g.drawString("Lv6. "+handler.getSkillManager().getSkillTypeStr(handler.getData().getPlayer4_job(), 3), 670, 270);
-			g.drawString("Lv9. "+handler.getSkillManager().getSkillTypeStr(handler.getData().getPlayer4_job(), 4), 670, 310);
-			g.drawString("Lv12. "+handler.getSkillManager().getSkillTypeStr(handler.getData().getPlayer4_job(), 5), 670, 350);
-		}
-	}
-	
-	private void drawItems(Graphics g){
-		g.setFont(new Font("Arial", Font.PLAIN, 20)); 
-		g.setColor(new Color (227,70,221)); //Magenta
-		if (character == 0){
-			g.drawString(handler.getItemManager().getItemName(handler.getData().getPlayer1_job(), 1, handler.getData().getPlayer1_pri_eq()), 520, 150);
-			g.drawString(handler.getItemManager().getItemName(handler.getData().getPlayer1_job(), 2, handler.getData().getPlayer1_sec_eq()), 520, 230);
-			g.drawString(handler.getItemManager().getItemName(handler.getData().getPlayer1_job(), 3, handler.getData().getPlayer1_armour()), 520, 310);
-			g.setFont(new Font("Arial", Font.BOLD, 14));
-			g.setColor(new Color(95,242,138)); //pale green
-			g.drawString(handler.getItemManager().getItemDes(handler.getData().getPlayer1_job(), 1, handler.getData().getPlayer1_pri_eq()), 520, 175);
-			g.drawString(handler.getItemManager().getItemDes(handler.getData().getPlayer1_job(), 2, handler.getData().getPlayer1_sec_eq()), 520, 255);
-			g.drawString(handler.getItemManager().getItemDes(handler.getData().getPlayer1_job(), 3, handler.getData().getPlayer1_armour()), 520, 335);
-		}
-		else if (character == 1){
-			g.drawString(handler.getItemManager().getItemName(handler.getData().getPlayer2_job(), 1, handler.getData().getPlayer2_pri_eq()), 520, 150);
-			g.drawString(handler.getItemManager().getItemName(handler.getData().getPlayer2_job(), 2, handler.getData().getPlayer2_sec_eq()), 520, 230);
-			g.drawString(handler.getItemManager().getItemName(handler.getData().getPlayer2_job(), 3, handler.getData().getPlayer2_armour()), 520, 310);
-			g.setFont(new Font("Arial", Font.BOLD, 14));
-			g.setColor(new Color(95,242,138));
-			g.drawString(handler.getItemManager().getItemDes(handler.getData().getPlayer2_job(), 1, handler.getData().getPlayer2_pri_eq()), 520, 175);
-			g.drawString(handler.getItemManager().getItemDes(handler.getData().getPlayer2_job(), 2, handler.getData().getPlayer2_sec_eq()), 520, 255);
-			g.drawString(handler.getItemManager().getItemDes(handler.getData().getPlayer2_job(), 3, handler.getData().getPlayer2_armour()), 520, 335);
-		}
-		else if (character == 2){
-			g.drawString(handler.getItemManager().getItemName(handler.getData().getPlayer3_job(), 1, handler.getData().getPlayer3_pri_eq()), 520, 150);
-			g.drawString(handler.getItemManager().getItemName(handler.getData().getPlayer3_job(), 2, handler.getData().getPlayer3_sec_eq()), 520, 230);
-			g.drawString(handler.getItemManager().getItemName(handler.getData().getPlayer3_job(), 3, handler.getData().getPlayer3_armour()), 520, 310);
-			g.setFont(new Font("Arial", Font.BOLD, 14));
-			g.setColor(new Color(95,242,138));
-			g.drawString(handler.getItemManager().getItemDes(handler.getData().getPlayer3_job(), 1, handler.getData().getPlayer3_pri_eq()), 520, 175);
-			g.drawString(handler.getItemManager().getItemDes(handler.getData().getPlayer3_job(), 2, handler.getData().getPlayer3_sec_eq()), 520, 255);
-			g.drawString(handler.getItemManager().getItemDes(handler.getData().getPlayer3_job(), 3, handler.getData().getPlayer3_armour()), 520, 335);
-		}
-		else{
-			g.drawString(handler.getItemManager().getItemName(handler.getData().getPlayer4_job(), 1, handler.getData().getPlayer4_pri_eq()), 520, 150);
-			g.drawString(handler.getItemManager().getItemName(handler.getData().getPlayer4_job(), 2, handler.getData().getPlayer4_sec_eq()), 520, 230);
-			g.drawString(handler.getItemManager().getItemName(handler.getData().getPlayer4_job(), 3, handler.getData().getPlayer4_armour()), 520, 310);
-			g.setFont(new Font("Arial", Font.BOLD, 14));
-			g.setColor(new Color(95,242,138));
-			g.drawString(handler.getItemManager().getItemDes(handler.getData().getPlayer4_job(), 1, handler.getData().getPlayer4_pri_eq()), 520, 175);
-			g.drawString(handler.getItemManager().getItemDes(handler.getData().getPlayer4_job(), 2, handler.getData().getPlayer4_sec_eq()), 520, 255);
-			g.drawString(handler.getItemManager().getItemDes(handler.getData().getPlayer4_job(), 3, handler.getData().getPlayer4_armour()), 520, 335);
-		}
-	}
 	
 
 }

@@ -1,23 +1,18 @@
 package thePrinceMain;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
-import java.awt.image.BufferedImage;
 
 import data.Loader;
-import gameStates.BattleState;
 import gameStates.MainState;
 import gameStates.State;
 import gfx.Assets;
 import gfx.GameCamera;
-import gfx.SpriteSheet;
 import input.KeyManager;
 import items.ItemManager;
 import skills.SkillManager;
 import thePrinceDisplay.Display;
 import thePrinceGame.Handler;
-import tile.Tile;
 
 public class Game implements Runnable{
 
@@ -33,15 +28,6 @@ public class Game implements Runnable{
 	private BufferStrategy bs;
 	private Graphics g;
 	
-	//States
-	private State gameState;
-	private State menuState;
-	private State serengetiState;
-	private State amazonState;
-	private State gobiState;
-	private State atlantisState;
-	private State jotenheimState;
-	private State mainState;
 	
 	//Input
 	private KeyManager keyManager;
@@ -51,10 +37,6 @@ public class Game implements Runnable{
 	
 	//Handler
 	private Handler handler;
-	
-	//SpriteSheets
-	private BufferedImage GSsprites;
-	private SpriteSheet sheet;
 	
 	//SavedFile
 	private Loader loadFile;
@@ -81,7 +63,7 @@ public class Game implements Runnable{
 		gameCamera = new GameCamera(handler,0,0);
 		
 		//Load Saved Data
-		loadFile = new Loader("saveState.txt");
+		loadFile = new Loader("saveState.txt", false);
 		handler.setData(loadFile);
 		
 		//Initialize states
@@ -148,6 +130,7 @@ public class Game implements Runnable{
 		long now;
 		long lastTime = System.nanoTime();
 		long timer = 0;
+		@SuppressWarnings("unused")
 		int ticks = 0;
 		
 		while(running ){

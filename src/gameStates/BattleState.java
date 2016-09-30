@@ -8,18 +8,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import data.Loader;
-import entities.EntityManager;
 import entities.Monster;
 import entities.MonsterManager;
 import entities.Player;
 import gfx.Animation;
 import gfx.Assets;
 import thePrinceGame.Handler;
-import tile.Tile;
 
 public class BattleState extends State {
 
-	private EntityManager entityManager;
 	private MonsterManager monsterManager;
 	private Animation animLeft1;
 	private Animation animLeft2;
@@ -52,7 +49,6 @@ public class BattleState extends State {
 		super(handler);
 		//stateID = 7;
 		stateID = handler.getData().getStateID();
-		entityManager = new EntityManager(handler, null);
 		
 		animLeft1 = new Animation(200, Assets.player_left);
 		animLeft2 = new Animation(200, getCharAnim(handler.getData().getPlayer2_job()));
@@ -108,6 +104,7 @@ public class BattleState extends State {
 		
 	}
 	
+	@SuppressWarnings("deprecation")
 	public void tick(){
 		boolean win = true;
 		for (int j = 0 ; j < numEnemy ; j++){ //true if dead
@@ -244,6 +241,7 @@ public class BattleState extends State {
 		drawPlayerMove(g);
 	}
 	
+	@SuppressWarnings("deprecation")
 	private void makePlayerMove(){
 		for (int x=0; x < 6; x++){
 			System.out.println("largest x = " + (x));
@@ -348,11 +346,11 @@ public class BattleState extends State {
 		if (enemyTarget == 9){
 			for (int i = 0; i < numEnemy; i++){
 				// attack variable between 80% and 120%
-				double attackVariable = Math.random()*0.4 + 0.8;
+				//double attackVariable = Math.random()*0.4 + 0.8;
 				// crit chance
-				int crit = 1;
-				if (Math.random() < p_crit) // updated in playerDmg function
-					crit = 2;
+//				int crit = 1;
+//				if (Math.random() < p_crit) // updated in playerDmg function
+//					crit = 2;
 				int hp = monsters[i].getMonster_currHp();
 				if (p_magic)
 				{
