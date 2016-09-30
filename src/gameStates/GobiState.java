@@ -31,7 +31,7 @@ public class GobiState extends State {
 	
 	public GobiState(Handler handler){
 		super(handler);
-		world = new World(handler, "res/worlds/gobiCastle.txt");
+		world = new World(handler, "/world/gobiCastle.txt");
 		handler.setWorld(world);
 		player = world.getEntityManager().getPlayer();
 		weaponGuy = new WeaponGuy(handler, Tile.TILEWIDTH* 6.0f, Tile.TILEHEIGHT * 8.0f);

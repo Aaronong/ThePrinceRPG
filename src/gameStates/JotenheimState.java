@@ -31,7 +31,7 @@ public class JotenheimState extends State {
 	
 	public JotenheimState(Handler handler){
 		super(handler);
-		world = new World(handler, "res/worlds/jotenheimCastle.txt");
+		world = new World(handler, "/world/jotenheimCastle.txt");
 		handler.setWorld(world);
 		player = world.getEntityManager().getPlayer();
 		weaponGuy = new WeaponGuy(handler, Tile.TILEWIDTH* 6.0f, Tile.TILEHEIGHT * 8.0f);

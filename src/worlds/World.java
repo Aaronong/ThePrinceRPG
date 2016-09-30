@@ -1,6 +1,7 @@
 package worlds;
 
 import java.awt.Graphics;
+import java.io.IOException;
 
 import entities.EntityManager;
 import entities.Player;
@@ -62,7 +63,8 @@ public class World {
 	}
 	
 	private void loadWorld(String path){
-		String file = Utils.loadFileAsString(path);
+		String file = null;
+		file = Utils.loadWorld(path);
 		String[] tokens = file.split("\\s+");
 		width = Utils.parseInt(tokens[0]);
 		height = Utils.parseInt(tokens[1]);

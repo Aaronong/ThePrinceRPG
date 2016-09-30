@@ -108,7 +108,7 @@ public class MenuState extends State {
 				if (save == 1)
 					handler.getData().saveData(handler.getData().getPath());
 				else if (save == 2){
-					Loader loadFile = new Loader("res/saveFiles/saveState1.txt");
+					Loader loadFile = new Loader("/saveFiles/saveState1.txt");
 					handler.setData(loadFile);
 				}
 				else if (save == 3){

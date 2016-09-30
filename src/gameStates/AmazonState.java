@@ -30,7 +30,7 @@ public class AmazonState extends State {
 	
 	public AmazonState(Handler handler){
 		super(handler);
-		world = new World(handler, "res/worlds/amazonCastle.txt");
+		world = new World(handler, "/world/amazonCastle.txt");
 		handler.setWorld(world);
 		player = world.getEntityManager().getPlayer();
 

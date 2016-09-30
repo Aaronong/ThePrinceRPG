@@ -1,9 +1,14 @@
 package data;
 
-
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 import utils.Utils;
 
@@ -119,7 +124,12 @@ public class Loader {
 	
 	public Loader (String path)
 	{
-		loadData (path);
+		try {
+			loadData (path);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		castle_key = setItem(0);
 		bug_spray = setItem(1);
@@ -229,8 +239,8 @@ public class Loader {
 		player4_sec = setSecondaryAttrubute (player4_job);
 	}
 	
-	private void loadData(String path){
-		String file = Utils.loadFileAsString(path);
+	private void loadData(String path) throws IOException{
+		String file = Utils.loadFile(path);
 		this.path = path;
 		String[] tokens = file.split("\\s+");
 		stateID = Utils.parseInt(tokens[0]);
@@ -239,9 +249,17 @@ public class Loader {
 		EXP = Utils.parseInt(tokens[3]);
 		Gold = Utils.parseInt(tokens[4]);
 		
+		for (int k = 0 ; k < 52; k ++){
+			if (k % 11 == 5)
+				System.out.println(tokens[k]);
+			else
+				System.out.println(Utils.parseInt(tokens[k]));
+		}
+		
 		player1_name = tokens[5];
 		for (int y = 0; y < 10; y++){
 			player1_data[y] = Utils.parseInt(tokens[y+6]);
+			//System.out.println(player1_data[y]);
 		}
 		player2_name = tokens[16];
 		for (int y = 0; y < 10; y++){
@@ -262,11 +280,11 @@ public class Loader {
 		
 	public void saveData(String path) {
 		StringBuilder saveString = new StringBuilder();
-		saveString.append(stateID+"\n");
+		saveString.append(stateID+"\r\n");
 		saveString.append(x_coord+" ");
-		saveString.append(y_coord+"\n");
-		saveString.append(EXP+"\n");
-		saveString.append(Gold+"\n");
+		saveString.append(y_coord+"\r\n");
+		saveString.append(EXP+"\r\n");
+		saveString.append(Gold+"\r\n");
 		
 		saveString.append(player1_name + " ");
 		saveString.append(player1_job + " ");
@@ -278,7 +296,7 @@ public class Loader {
 		saveString.append(player1_sec_eq + " ");
 		saveString.append(player1_armour + " ");
 		saveString.append(player1_currHp + " ");
-		saveString.append(player1_currMp + "\n");
+		saveString.append(player1_currMp + "\r\n");
 		
 		saveString.append(player2_name + " ");
 		saveString.append(player2_job + " ");
@@ -290,7 +308,7 @@ public class Loader {
 		saveString.append(player2_sec_eq + " ");
 		saveString.append(player2_armour + " ");
 		saveString.append(player2_currHp + " ");
-		saveString.append(player2_currMp + "\n");
+		saveString.append(player2_currMp + "\r\n");
 		
 		saveString.append(player3_name + " ");
 		saveString.append(player3_job + " ");
@@ -302,7 +320,7 @@ public class Loader {
 		saveString.append(player3_sec_eq + " ");
 		saveString.append(player3_armour + " ");
 		saveString.append(player3_currHp + " ");
-		saveString.append(player3_currMp + "\n");
+		saveString.append(player3_currMp + "\r\n");
 		
 		saveString.append(player4_name + " ");
 		saveString.append(player4_job + " ");
@@ -314,7 +332,7 @@ public class Loader {
 		saveString.append(player4_sec_eq + " ");
 		saveString.append(player4_armour + " ");
 		saveString.append(player4_currHp + " ");
-		saveString.append(player4_currMp + "\n");
+		saveString.append(player4_currMp + "\r\n");
 
 		if (castle_key)
 			saveString.append("1 ");
@@ -340,7 +358,7 @@ public class Loader {
 		
 		PrintWriter writer;
 		try {
-			writer = new PrintWriter(path, "UTF-8");
+			writer = new PrintWriter("saveState.txt", "UTF-8");
 			writer.println(saveString);
 			writer.close();
 		} catch (FileNotFoundException e) {
@@ -350,6 +368,22 @@ public class Loader {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+//		URL resourceUrl = getClass().getResource(path);
+//		File file;
+//		try {
+//			file = new File(resourceUrl.toURI());
+//			OutputStream output = new FileOutputStream(file);
+//			PrintWriter writer = new PrintWriter(output);
+//			writer.println(saveString + System.getProperty("line.seperator"));
+//			writer.close();
+//		} catch (URISyntaxException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (FileNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
 
 	}
 	

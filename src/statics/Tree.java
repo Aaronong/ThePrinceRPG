@@ -18,7 +18,7 @@ public class Tree extends StaticEntity {
 
 	@Override
 	public void render(Graphics g) {
-		g.drawImage(Assets., (int) (x - handler.getGameCamera().getxOffset()),
+		g.drawImage(Assets.tree, (int) (x - handler.getGameCamera().getxOffset()),
 				(int) (y - handler.getGameCamera().getyOffset()), width, height, null);
 	}
 }

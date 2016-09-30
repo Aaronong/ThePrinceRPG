@@ -81,7 +81,7 @@ public class Game implements Runnable{
 		gameCamera = new GameCamera(handler,0,0);
 		
 		//Load Saved Data
-		loadFile = new Loader("res/saveFiles/saveState1.txt");
+		loadFile = new Loader("saveState.txt");
 		handler.setData(loadFile);
 		
 		//Initialize states

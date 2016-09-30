@@ -31,7 +31,7 @@ public class SerengetiState extends State {
 	
 	public SerengetiState(Handler handler){
 		super(handler);
-		world = new World(handler, "res/worlds/serengetiCastle.txt");
+		world = new World(handler, "/world/serengetiCastle.txt");
 		handler.setWorld(world);
 		player = world.getEntityManager().getPlayer();
 		weaponGuy = new WeaponGuy(handler, Tile.TILEWIDTH* 6.0f, Tile.TILEHEIGHT * 8.0f);
